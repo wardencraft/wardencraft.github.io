@@ -92,6 +92,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         window.location.href = 'https://aur.archlinux.org/';
                     }
                 },
+                'harvard': {
+                        description: 'Abrir Harvard',
+                        action: () => {
+                                    window.location.href = 'https://pll.harvard.edu/catalog';
+                        }
+                },
                 
             };
             

@@ -98,6 +98,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                     window.location.href = 'https://pll.harvard.edu/catalog';
                         }
                 },
+                'canva': {
+                    description: 'Abrir Canva',
+                    action: () => {
+                        window.location.href = 'https://www.canva.com';
+                    }
+                },
                 
             };
             

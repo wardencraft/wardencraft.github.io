@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     setTimeout(tryFocus, 50);
                         }
             }
-            setTimeout(tryFocus, 250);
+            setTimeout(try_focus, 250);
             
             // Comandos disponíveis
             const commands = {

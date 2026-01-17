@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
             const inputField = document.getElementById('commandInput');
             const output = document.getElementById('output');
+
+            setTimeout(() => {
+                const input = document.querySelector("input");
+                if (input) input.focus();
+            }, 150);
             
             // Comandos disponíveis
             const commands = {

@@ -2,10 +2,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const inputField = document.getElementById('commandInput');
             const output = document.getElementById('output');
 
-            setTimeout(() => {
-                const input = document.querySelector("input");
-                if (input) input.focus();
-            }, 150);
+            const try_focus = () => {
+                        const inputField = document.getElementById('commandInput');
+                        if (input) {
+                                    input.focus();
+                        } else {
+                                    setTimeout(tryFocus, 50);
+                        }
+            }
+            setTimeout(tryFocus, 250);
             
             // Comandos disponíveis
             const commands = {

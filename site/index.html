@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <input type="text" placeholder="Search the web..." id="input">
+        <div id="select"><p id="selector"></p></div>
+    </main>
+    <script>
+        const input = document.getElementById("input");
+        const selector = document.getElementById("selector");
+        const select = document.getElementById("select");
+
+        const shortcuts = {
+            'sig': {
+                action: () => {
+                    window.location.href = "https://sig.ifc.edu.br/sigaa"
+                }
+            },
+            'chat': {
+                action: () => {
+                    window.location.href = "https://chatgpt.com"
+                }
+            }
+        }
+
+        search_tool = (text, link) => {
+            if(shortcuts[text]) {
+                shortcuts[text].action();
+            } else if(text.includes('https://') || text.includes('http://')) {
+                window.location.href = text;
+            } else if(text.includes('.') && !text.includes(' ')) {
+                window.location.href = `https://${text}`
+            } else {
+                window.location.href = (`${link}${encodeURIComponent(text)}`);// <!--XD-->
+            }
+        }
+
+        engine = (number) => {
+            select.classList.remove('google', 'youtube', 'chat');
+            if(number==1) {
+                selector.innerHTML = "Google";
+                link = 'https://www.google.com/search?q=';
+                select.classList.add('google');
+            } else if(number==2) {
+                selector.innerHTML = "Youtube";
+                link = 'https://www.youtube.com/results?search_query=';
+                select.classList.add('youtube');
+            } else if(number==3) {
+                selector.innerHTML = "ChatGPT";
+                link = 'https://chat.openai.com/?q='
+                select.classList.add('chat');
+            }
+        }
+
+        engine(1);
+
+        input.focus();
+        input.addEventListener("keydown", (e) => {
+            if(e.key === 'Enter') {
+                let text = input.value.toLowerCase();
+                input.value = '';
+                search_tool(text, link);
+            }
+        })
+        window.addEventListener("keydown", (e) => {
+            e.preventDefault();
+            if(e.ctrlKey && e.key === ' '){
+                input.focus();
+            } else if(e.altKey && e.key === '1'){ //Google
+                engine(1);
+            } else if(e.altKey && e.key === '2'){ //Youtube
+                engine(2);
+            } else if(e.altKey && e.key === '3'){ //ChatGPT
+                engine(3);
+            }
+        })
+    </script>
+</body>
+</html>

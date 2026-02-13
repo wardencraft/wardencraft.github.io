@@ -1,0 +1,50 @@
+body {
+    color: #ffffff;
+    background-color: #111111;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    height: 100vh;
+}
+
+main {
+    display: flex;
+    gap: 10px;
+}
+
+#input {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 15px 40px 15px 20px;
+    border: 0;
+    border-radius: 15px;
+    min-width: 500px;
+    font-size: larger;
+ }
+
+#input:focus {
+   outline: 2px solid #575757;
+}
+
+ #input::placeholder {
+    color: #ffffff;
+    user-select: none;
+ }
+
+ #select {
+    background-color: #222222;
+    padding: 0 20px 0 20px;
+    border-radius: 15px;
+    min-width: 100px;
+    text-align: center;
+    align-content: center;
+    transition: 300ms;
+ }
+
+#select.google  { background-color: #4285F4; }
+#select.youtube { background-color: #FF0000; }
+#select.chat    { background-color: #10A37F; }

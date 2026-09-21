@@ -1,0 +1,97 @@
+{
+    "git": {
+        "type":"url",
+        "value":"https://github.com",
+        "description":"GitHub"
+    },
+    "y": {
+        "type":"url",
+        "value":"https://youtube.com",
+        "description":"Youtube"
+    },
+    "sig": {
+        "type":"url",
+        "value":"https://sig.ifc.edu.br/",
+        "description":"Sigaa"
+    },
+    "chat": {
+        "type":"url",
+        "value":"https://chatgpt.com",
+        "description":"ChatGPT"
+    },
+    "gdb": {
+        "type":"url",
+        "value":"https://onlinegdb.com",
+        "description":"OnlineGDB"
+    },
+    "gmail": {
+        "type":"url",
+        "value":"https://mail.google.com/",
+        "description":"Google Gmail"
+    },
+    "gemini": {
+        "type":"url",
+        "value":"https://gemini.google.com/",
+        "description":"Gemini"
+    },
+    "telegram": {
+        "type":"url",
+        "value":"https://web.telegram.org/",
+        "description":"Telegram"
+    },
+    "t": {
+        "type":"url",
+        "value":"https://translate.google.com",
+        "description":"Google Translate"
+    },
+    "canva": {
+        "type":"url",
+        "value":"https://canva.com",
+        "description":"Canva"
+    },
+    "drive": {
+        "type":"url",
+        "value":"https://drive.google.com/",
+        "description":"Google Drive"
+    },
+    "library": {
+        "type":"url",
+        "value":"https://wardencraft.github.io/search/library",
+        "description": "Private Library"
+    },
+    "lm": {
+        "type": "url",
+        "value":"https://notebooklm.google/",
+        "description": "Google LM Notebook"
+    },
+    "w": {
+        "type": "url",
+        "value": "https://web.whatsapp.com",
+        "description": "Whatsapp Web"
+    },
+    "grok": {
+        "type": "url",
+        "value":"https://grok.com",
+        "description": "Grok AI"
+    },
+    "bubble": {
+        "type": "url",
+        "value":"https://bubble.io/home",
+        "description": "Bubble IO"
+    },
+    "per": {
+        "type": "url",
+        "value": "https://www.perplexity.ai/",
+        "description": "Perplexity AI"
+    },
+    "dc": {
+        "type": "url",
+        "value": "https://discord.com/app",
+        "description": "Discord"
+    },
+    "un": {
+        "type": "url",
+        "value": "https://aluno.universonarrado.com.br",
+        "description": "Universo Narrado"
+    }
+}

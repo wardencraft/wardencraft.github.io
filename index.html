@@ -1,40 +1,840 @@
-
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="h-full" data-theme="green">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Welcome</title>
+    <title>NEXUS // SYS.V4.0</title>
+
+    <!-- Script de execução imediata para evitar o FOUC (flash de tom verde ao carregar) -->
+    <script>
+        (function() {
+            var savedTheme = localStorage.getItem('nexus_theme') || 'green';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts for Retro Monospace & Tech Aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+
+    <style>
+        /* BASE THEME VARIABLES (Default: Green) */
+        :root, [data-theme="green"] {
+            --bg-dark: #070B08;
+            --card-bg: #0C120E;
+            --input-bg: #060907;
+            --border-color: #1E3827;
+            --border-hover: rgba(74, 222, 128, 0.4);
+            --text-primary: #4ADE80;
+            --text-bright: #22C55E;
+            --text-muted: #527A5F;
+            --text-dim: #132B1C;
+            --btn-bg: #22C55E;
+            --btn-hover: #4ADE80;
+            --btn-text: #041208;
+            --glow-color: rgba(74, 222, 128, 0.25);
+            --glow-bright: rgba(34, 197, 94, 0.4);
+            --item-hover-bg: #122418;
+            --selection-bg: #22C55E;
+            --selection-text: #000000;
+        }
+
+        /* THEME: ELECTRIC CYAN */
+        [data-theme="cyan"] {
+            --bg-dark: #040A10;
+            --card-bg: #08141F;
+            --input-bg: #03080D;
+            --border-color: #123A52;
+            --border-hover: rgba(56, 189, 248, 0.5);
+            --text-primary: #38BDF8;
+            --text-bright: #06B6D4;
+            --text-muted: #497B99;
+            --text-dim: #0F2D40;
+            --btn-bg: #06B6D4;
+            --btn-hover: #38BDF8;
+            --btn-text: #02121A;
+            --glow-color: rgba(56, 189, 248, 0.25);
+            --glow-bright: rgba(6, 182, 212, 0.4);
+            --item-hover-bg: #0E2536;
+            --selection-bg: #38BDF8;
+            --selection-text: #000000;
+        }
+
+        /* THEME: HOT PINK / CYBER MAGENTA */
+        [data-theme="pink"] {
+            --bg-dark: #0F050A;
+            --card-bg: #1A0A13;
+            --input-bg: #0C0308;
+            --border-color: #4A1535;
+            --border-hover: rgba(244, 114, 182, 0.5);
+            --text-primary: #F472B6;
+            --text-bright: #EC4899;
+            --text-muted: #A34C7D;
+            --text-dim: #380E28;
+            --btn-bg: #EC4899;
+            --btn-hover: #F472B6;
+            --btn-text: #19020F;
+            --glow-color: rgba(244, 114, 182, 0.25);
+            --glow-bright: rgba(236, 72, 153, 0.4);
+            --item-hover-bg: #331025;
+            --selection-bg: #F472B6;
+            --selection-text: #000000;
+        }
+
+        /* THEME: CRIMSON / CYBER RED */
+        [data-theme="red"] {
+            --bg-dark: #0F0505;
+            --card-bg: #1C0B0B;
+            --input-bg: #0C0303;
+            --border-color: #4A1515;
+            --border-hover: rgba(248, 113, 113, 0.5);
+            --text-primary: #F87171;
+            --text-bright: #EF4444;
+            --text-muted: #9E4A4A;
+            --text-dim: #380F0F;
+            --btn-bg: #EF4444;
+            --btn-hover: #F87171;
+            --btn-text: #1A0303;
+            --glow-color: rgba(248, 113, 113, 0.25);
+            --glow-bright: rgba(239, 68, 68, 0.4);
+            --item-hover-bg: #331212;
+            --selection-bg: #F87171;
+            --selection-text: #000000;
+        }
+
+        html, body {
+            height: 100%;
+            max-height: 100vh;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Share Tech Mono', monospace;
+            user-select: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        ::selection {
+            background-color: var(--selection-bg);
+            color: var(--selection-text);
+        }
+
+        .font-pixel {
+            font-family: 'VT323', monospace;
+        }
+
+        /* Vignette Darken Edges */
+        .vignette {
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.85);
+            pointer-events: none;
+        }
+
+        /* Dynamic Cyber Cards & Elements */
+        .cyber-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            transition: all 0.25s ease-in-out;
+        }
+
+        .cyber-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+
+        .cyber-input-wrapper {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .cyber-input-wrapper:focus-within {
+            border-color: var(--text-primary);
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+
+        .cyber-border-bottom {
+            border-bottom: 1px solid var(--text-dim);
+        }
+
+        .cyber-border-top {
+            border-top: 1px solid var(--text-dim);
+        }
+
+        /* Button styling */
+        .btn-cyber-primary {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            font-weight: 700;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 10px var(--glow-bright);
+        }
+
+        .btn-cyber-primary:hover {
+            background-color: var(--btn-hover);
+            box-shadow: 0 0 20px var(--glow-bright);
+            transform: translateY(-1px);
+        }
+
+        .btn-cyber-primary:active {
+            transform: translateY(1px);
+        }
+
+        .pill-btn {
+            border: 1px solid var(--border-color);
+            background: rgba(12, 18, 14, 0.6);
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .pill-btn:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+            background: var(--glow-color);
+        }
+
+        .pill-btn.active {
+            border-color: var(--text-primary);
+            color: #FFFFFF;
+            background: var(--glow-bright);
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.85); }
+        }
+
+        .live-dot {
+            animation: pulse-dot 1.8s infinite ease-in-out;
+            background-color: var(--text-primary);
+            box-shadow: 0 0 8px var(--text-primary);
+        }
+
+        /* Custom Scrollbar for Terminal Lists */
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: var(--input-bg);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 2px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: var(--text-primary);
+        }
+
+        .theme-btn-badge {
+            border: 1px solid var(--border-color);
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .theme-btn-badge:hover {
+            border-color: var(--text-primary);
+            box-shadow: 0 0 10px var(--glow-color);
+            transform: scale(1.03);
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
-        <div class="hero">
-            <div class="text-container">
-                <h1>WELCOME</h1>
-                <p>Access whatever you want just by typing</p>
+<body class="h-full flex flex-col justify-between p-3 sm:p-5 relative">
+
+    <!-- Atmosphere Vignette Overlay -->
+    <div class="fixed inset-0 vignette z-40"></div>
+
+    <div class="max-w-6xl w-full mx-auto relative z-10 flex flex-col justify-between h-full">
+        
+        <!-- TOP HEADER -->
+        <header class="flex items-center justify-between cyber-border-bottom pb-3 shrink-0">
+            <div class="flex items-center space-x-3">
+                <span class="w-2.5 h-2.5 rounded-full live-dot"></span>
+                <h1 class="text-xl sm:text-2xl font-pixel tracking-widest flex items-center gap-1" style="color: var(--text-primary);">
+                    <span>•</span> NEXUS
+                </h1>
             </div>
-            <div class="form-container">
-                <div class="input-container">
-                    <input type="text" class="input-field" placeholder=">_" id="commandInput" autocomplete="off">
-                </div>
-                <div class="output" id="output">
-                    <!-- O output será inserido via JavaScript -->
-                </div>
+            
+            <div class="flex items-center space-x-2 text-xs sm:text-sm font-mono tracking-wider">
+                <!-- CLICKABLE THEME SWITCHER BUTTON IN TOP BAR -->
+                <button 
+                    onclick="cycleTheme()" 
+                    title="Clique para alternar o tema (Verde, Ciano, Rosa, Vermelho)" 
+                    class="theme-btn-badge cursor-pointer flex items-center gap-1.5 font-bold tracking-widest text-xs"
+                    id="theme-toggle-btn"
+                >
+                    <span id="theme-display-name">SYS.V4.0 // VERDE</span>
+                    <span class="w-2 h-2 rounded-full inline-block" style="background-color: var(--text-primary);"></span>
+                </button>
+                <span style="color: var(--text-muted);">//</span>
+                <span class="font-bold tracking-widest" style="color: var(--text-primary);">ONLINE</span>
             </div>
-        </div>
+        </header>
+
+        <!-- MAIN TERMINAL CONTENT GRID -->
+        <main class="flex-1 flex flex-col my-3 gap-3 overflow-hidden min-h-0">
+
+            <section class="cyber-card rounded-lg p-3.5 sm:p-4 shadow-xl shrink-0 relative overflow-hidden">
+                <div class="text-[11px] sm:text-xs mb-2.5 tracking-widest flex items-center justify-between" style="color: var(--text-muted);">
+                    <div class="flex items-center gap-2">
+                        <span class="inline-block w-1.5 h-3 animate-pulse" style="background-color: var(--text-primary);"></span>
+                        // CONSULTA UNIFICADA
+                    </div>
+                    <span class="text-[10px] hidden sm:inline uppercase" style="color: var(--text-muted);">DIGITE UM COMANDO OU UMA BUSCA</span>
+                </div>
+
+                <!-- Input Form -->
+                <form id="search-form" onsubmit="executeCommand(event)" class="space-y-2">
+                    <div class="cyber-input-wrapper rounded-md p-1.5 sm:p-2 flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2.5 flex-grow pl-2">
+                            <svg class="w-4 h-4 shrink-0" style="color: var(--text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+
+                            <input
+                                type="text"
+                                id="search-input"
+                                placeholder="Digite uma pergunta, link ou atalho (ex: y, git, w, ls)..."
+                                autocomplete="off"
+                                class="bg-transparent text-xs sm:text-sm focus:outline-none w-full font-mono tracking-wide"
+                                style="color: var(--text-primary);"
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn-cyber-primary px-4 py-2 rounded text-[11px] sm:text-xs tracking-wider flex items-center gap-1.5 uppercase shrink-0 font-bold"
+                        >
+                            <span>EXECUTAR</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Keyboard Hotkey Indicators (Informative Only) -->
+                <div class="flex flex-wrap gap-3 mt-2.5 text-[10px] sm:text-xs tracking-wider" style="color: var(--text-muted);">
+                    <span>
+                        <span style="color: var(--text-primary);">[ ENTER ]</span> buscar/executar
+                    </span>
+                    <span>
+                        <span style="color: var(--text-primary);">[ CMD K ]</span> alternar motor
+                    </span>
+                    <span>
+                        <span style="color: var(--text-primary);">[ TEMA ]</span> mudar cor
+                    </span>
+                    <span>
+                        <span style="color: var(--text-primary);">[ / ]</span> focar campo
+                    </span>
+                </div>
+            </section>
+
+            <section id="terminal-output-container" class="cyber-card rounded-lg p-3 shadow-xl hidden shrink-0 max-h-36 overflow-hidden flex flex-col">
+                <div class="flex items-center justify-between cyber-border-bottom pb-1.5 mb-2 shrink-0">
+                    <span class="text-[11px] font-mono tracking-wider" style="color: var(--text-primary);">// COMANDOS REGISTRADOS [LS]</span>
+                    <button onclick="closeTerminalOutput()" class="text-[10px] font-mono hover:opacity-100 opacity-70" style="color: var(--text-muted);">[ FECHAR ]</button>
+                </div>
+                <div id="terminal-output" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-[11px] font-mono overflow-y-auto custom-scroll pr-1 flex-1">
+                    <!-- Populated dynamically -->
+                </div>
+            </section>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 flex-1 min-h-0 overflow-hidden">
+
+                <!-- LEFT SIDE COLUMNS (8 COLS) -->
+                <div class="md:col-span-7 lg:col-span-8 flex flex-col gap-3 min-h-0">
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 shrink-0">
+                        
+                        <!-- CARD: MOTORES DISPONÍVEIS -->
+                        <div class="cyber-card rounded-lg p-3.5 flex flex-col justify-between">
+                            <h3 class="text-[10px] tracking-widest uppercase mb-2.5" style="color: var(--text-muted);">
+                                MOTORES DISPONÍVEIS
+                            </h3>
+
+                            <div class="flex flex-wrap gap-1.5" id="engine-selector">
+                                <button onclick="selectEngine('google')" id="btn-engine-google" class="pill-btn active px-2.5 py-1.5 rounded text-[11px] flex items-center gap-1.5">
+                                    <span class="font-bold" style="color: var(--text-primary);">G</span> GOOGLE
+                                </button>
+                                
+                                <button onclick="selectEngine('gemini')" id="btn-engine-gemini" class="pill-btn px-2.5 py-1.5 rounded text-[11px] flex items-center gap-1.5">
+                                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                                    GEMINI
+                                </button>
+
+                                <button onclick="selectEngine('youtube')" id="btn-engine-youtube" class="pill-btn px-2.5 py-1.5 rounded text-[11px] flex items-center gap-1.5">
+                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                                    YOUTUBE
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- CARD: HORÁRIO & DATA -->
+                        <div class="cyber-card rounded-lg p-3.5 flex flex-col justify-between">
+                            <div class="flex items-center justify-between text-[10px] tracking-widest uppercase mb-1" style="color: var(--text-muted);">
+                                <span>DATA // HORÁRIO</span>
+                                <span class="flex items-center gap-1 text-[9px]" style="color: var(--text-primary);">
+                                    <span class="w-1.5 h-1.5 rounded-full live-dot"></span> RTC
+                                </span>
+                            </div>
+
+                            <div class="my-0.5">
+                                <div id="clock-display" class="text-3xl sm:text-4xl font-pixel tracking-wider" style="color: var(--text-primary);">
+                                    00:00:00
+                                </div>
+                            </div>
+
+                            <div class="text-[11px] leading-tight" style="color: var(--text-muted);">
+                                <span id="weekday-display" class="font-bold uppercase" style="color: var(--text-primary);">SEGUNDA-FEIRA</span><br>
+                                <span id="date-display" style="color: var(--text-muted);">01/01/2026</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- CARD: TASKS / TO-DO SYSTEM -->
+                    <div class="cyber-card rounded-lg p-3.5 flex-1 flex flex-col justify-between min-h-0 overflow-hidden">
+                        <div class="flex flex-col h-full min-h-0">
+                            <!-- Header -->
+                            <div class="flex items-center justify-between mb-2 shrink-0 cyber-border-bottom pb-1.5">
+                                <h3 class="text-[10px] tracking-widest uppercase flex items-center gap-1.5" style="color: var(--text-muted);">
+                                    <span class="w-1.5 h-1.5 rounded-full" style="background-color: var(--text-primary);"></span>
+                                    TAREFAS // TO-DO
+                                </h3>
+                                <span id="todo-count" class="text-[10px] font-mono" style="color: var(--text-muted);">0 PENDENTES</span>
+                            </div>
+                            
+                            <!-- Input para nova tarefa -->
+                            <form onsubmit="addTodo(event)" class="flex gap-2 mb-2 shrink-0">
+                                <input
+                                    type="text"
+                                    id="todo-input"
+                                    placeholder="Adicionar nova tarefa..."
+                                    autocomplete="off"
+                                    class="bg-transparent border border-[#1E3827] text-xs px-2.5 py-1 rounded focus:outline-none flex-1 font-mono tracking-wide transition-colors"
+                                    style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-primary);"
+                                />
+                                <button
+                                    type="submit"
+                                    class="btn-cyber-primary px-3 py-1 rounded text-[10px] tracking-wider uppercase font-bold shrink-0 flex items-center justify-center"
+                                >
+                                    + ADD
+                                </button>
+                            </form>
+
+                            <!-- Lista de Tarefas (Scrollable) -->
+                            <div id="todo-list" class="space-y-1.5 overflow-y-auto custom-scroll pr-1 flex-1 min-h-0">
+                                <!-- Preenchido dinamicamente pelo JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT SIDE COLUMN: DYNAMIC SHORTCUTS PANEL (5 COLS) -->
+                <div class="md:col-span-5 lg:col-span-4 h-full min-h-0 flex flex-col">
+                    <div class="cyber-card rounded-lg p-3.5 h-full flex flex-col justify-between min-h-0 overflow-hidden">
+                        <div class="flex flex-col h-full min-h-0">
+                            <div class="flex items-center justify-between text-[10px] tracking-widest uppercase mb-2.5 cyber-border-bottom pb-2 shrink-0" style="color: var(--text-muted);">
+                                <span>SHORTCUTS</span>
+                                <svg class="w-3.5 h-3.5" style="color: var(--text-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6zm12 12a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6zM9 6h6v12H9V6z"></path>
+                                </svg>
+                            </div>
+
+                            <!-- Scrollable Dynamic Shortcuts List -->
+                            <div id="shortcuts-list" class="space-y-1.5 text-xs font-mono overflow-y-auto custom-scroll pr-1 flex-1 min-h-0">
+                                <!-- Dynamically populated by JS -->
+                            </div>
+
+                            <div id="shortcuts-count-tag" class="mt-2 pt-2 cyber-border-top text-[10px] tracking-widest uppercase shrink-0" style="color: var(--text-muted);">
+                                CARREGANDO ATALHOS...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- FOOTER BAR -->
+        <footer class="pt-2 cyber-border-top flex flex-row justify-between items-center text-[10px] sm:text-xs tracking-widest shrink-0" style="color: var(--text-muted);">
+            <div>
+                NEXUS / SEARCH FABRIC
+            </div>
+            <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full" style="background-color: var(--text-primary);"></span>
+                ENCRYPTED CHANNEL • AES-256
+            </div>
+        </footer>
+
     </div>
-    
-    <script src="script.js"></script>
+
+    <script>
+        /* Theme Configuration */
+        const themesList = [
+            { id: 'green', label: 'SYS.V4.0 // VERDE' },
+            { id: 'cyan', label: 'SYS.V4.0 // CIANO' },
+            { id: 'pink', label: 'SYS.V4.0 // ROSA' },
+            { id: 'red', label: 'SYS.V4.0 // VERMELHO' }
+        ];
+
+        let currentTheme = localStorage.getItem('nexus_theme') || 'green';
+
+        let shortcutsMap = {};
+        let currentEngine = 'google';
+        const engines = ['google', 'gemini', 'youtube'];
+
+        const engineUrls = {
+            google: "https://www.google.com/search?q=",
+            gemini: "https://gemini.google.com/app",
+            youtube: "https://www.youtube.com/results?search_query="
+        };
+
+        /* To-Do List Items */
+        let todos = JSON.parse(localStorage.getItem('nexus_todos') || '[]');
+
+        /* Initialization */
+        document.addEventListener('DOMContentLoaded', function () {
+            applyTheme(currentTheme);
+            focusSearch();
+            loadExternalShortcuts();
+            startClock();
+            renderTodos();
+        });
+
+        /* Theme Switching Logic */
+        function applyTheme(themeId) {
+            const themeObj = themesList.find(t => t.id === themeId) || themesList[0];
+            currentTheme = themeObj.id;
+
+            // Apply attribute to html element
+            document.documentElement.setAttribute('data-theme', currentTheme);
+
+            // Save to localStorage
+            localStorage.setItem('nexus_theme', currentTheme);
+
+            // Update Header Display Name
+            const displayNameElem = document.getElementById('theme-display-name');
+            if (displayNameElem) {
+                displayNameElem.textContent = themeObj.label;
+            }
+        }
+
+        function cycleTheme() {
+            const currentIndex = themesList.findIndex(t => t.id === currentTheme);
+            const nextIndex = (currentIndex + 1) % themesList.length;
+            applyTheme(themesList[nextIndex].id);
+        }
+
+        /* Real-Time Clock Function */
+        function startClock() {
+            const clockElem = document.getElementById('clock-display');
+            const weekdayElem = document.getElementById('weekday-display');
+            const dateElem = document.getElementById('date-display');
+
+            const weekdays = ['DOMINGO', 'SEGUNDA-FEIRA', 'TERÇA-FEIRA', 'QUARTA-FEIRA', 'QUINTA-FEIRA', 'SEXTA-FEIRA', 'SÁBADO'];
+
+            function updateTime() {
+                const now = new Date();
+                
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                
+                const day = String(now.getDate()).padStart(2, '0');
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const year = now.getFullYear();
+
+                if (clockElem) clockElem.textContent = `${hours}:${minutes}:${seconds}`;
+                if (weekdayElem) weekdayElem.textContent = weekdays[now.getDay()];
+                if (dateElem) dateElem.textContent = `${day}/${month}/${year}`;
+            }
+
+            updateTime();
+            setInterval(updateTime, 1000);
+        }
+
+        async function loadExternalShortcuts() {
+            try {
+                const response = await fetch('./shortcuts.json');
+                if (!response.ok) throw new Error('HTTP error ' + response.status);
+                shortcutsMap = await response.json();
+            } catch (err) {
+                console.warn("Could not fetch external shortcuts.json.", err);
+            } finally {
+                renderShortcutsPanel();
+            }
+        }
+
+        /* Render dynamic shortcuts from active dictionary */
+        function renderShortcutsPanel() {
+            const listContainer = document.getElementById('shortcuts-list');
+            const countTag = document.getElementById('shortcuts-count-tag');
+            if (!listContainer) return;
+
+            listContainer.innerHTML = '';
+            let totalRoutes = 0;
+
+            Object.keys(shortcutsMap).forEach(key => {
+                const item = shortcutsMap[key];
+                
+                const itemElem = document.createElement('div');
+                itemElem.className = "flex items-center justify-between p-1.5 rounded hover:bg-[var(--item-hover-bg)] cursor-pointer group transition-colors";
+                
+                if (item.type === 'url') {
+                    totalRoutes++;
+                    itemElem.onclick = () => directNavigate(item.value);
+                    itemElem.innerHTML = `
+                        <div class="flex items-center gap-2 overflow-hidden">
+                            <span class="font-bold shrink-0" style="color: var(--text-primary);">[ ${key} ]</span>
+                            <span class="truncate transition-colors text-[11px]" style="color: var(--text-muted);">${item.description}</span>
+                        </div>
+                        <svg class="w-3 h-3 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" style="color: var(--text-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    `;
+                } else {
+                    itemElem.onclick = () => runScriptCommand(key);
+                    itemElem.innerHTML = `
+                        <div class="flex items-center gap-2">
+                            <span class="text-amber-400 group-hover:text-amber-300 font-bold shrink-0">[ ${key} ]</span>
+                            <span class="text-amber-600/80 group-hover:text-amber-300 truncate transition-colors text-[11px]">${item.description}</span>
+                        </div>
+                        <span class="text-[9px] text-amber-500/60 uppercase font-mono">SCRIPT</span>
+                    `;
+                }
+
+                listContainer.appendChild(itemElem);
+            });
+
+            if (countTag) {
+                countTag.textContent = `${totalRoutes} ROTAS SINCRONIZADAS`;
+            }
+        }
+
+        function addTodo(event) {
+            if (event) event.preventDefault();
+            const input = document.getElementById('todo-input');
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            todos.push({
+                id: Date.now(),
+                text: text,
+                completed: false
+            });
+
+            input.value = '';
+            saveAndRenderTodos();
+        }
+
+        function toggleTodo(id) {
+            todos = todos.map(todo => {
+                if (todo.id === id) {
+                    return { ...todo, completed: !todo.completed };
+                }
+                return todo;
+            });
+            saveAndRenderTodos();
+        }
+
+        function deleteTodo(id) {
+            todos = todos.filter(todo => todo.id !== id);
+            saveAndRenderTodos();
+        }
+
+        function saveAndRenderTodos() {
+            localStorage.setItem('nexus_todos', JSON.stringify(todos));
+            renderTodos();
+        }
+
+        function renderTodos() {
+            const container = document.getElementById('todo-list');
+            const countElem = document.getElementById('todo-count');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            const pendingCount = todos.filter(t => !t.completed).length;
+            if (countElem) {
+                countElem.textContent = `${pendingCount} PENDENTE${pendingCount === 1 ? '' : 'S'}`;
+            }
+
+            if (todos.length === 0) {
+                container.innerHTML = `
+                    <div class="text-[11px] text-center py-4 font-mono" style="color: var(--text-muted);">
+                        // NENHUMA TAREFA REGISTRADA
+                    </div>
+                `;
+                return;
+            }
+
+            todos.forEach(todo => {
+                const item = document.createElement('div');
+                item.className = `flex items-center justify-between p-1.5 rounded border border-[var(--border-color)] bg-[var(--input-bg)] hover:border-[var(--text-primary)] transition-colors group text-xs font-mono`;
+                
+                item.innerHTML = `
+                    <div class="flex items-center gap-2 overflow-hidden mr-2 cursor-pointer" onclick="toggleTodo(${todo.id})">
+                        <span class="w-3.5 h-3.5 rounded border ${todo.completed ? 'border-[var(--text-primary)] bg-[var(--glow-color)] text-[var(--text-primary)]' : 'border-[var(--border-color)]'} flex items-center justify-center text-[10px] font-bold shrink-0">
+                            ${todo.completed ? '✓' : ''}
+                        </span>
+                        <span class="${todo.completed ? 'line-through opacity-50' : ''} truncate text-[11px]" style="color: var(--text-primary);">
+                            ${todo.text}
+                        </span>
+                    </div>
+                    <button 
+                        onclick="deleteTodo(${todo.id})" 
+                        class="hover:text-red-400 text-[10px] px-1 opacity-60 group-hover:opacity-100 transition-opacity font-mono shrink-0"
+                        style="color: var(--text-muted);"
+                    >
+                        [X]
+                    </button>
+                `;
+
+                container.appendChild(item);
+            });
+        }
+
+        function executeCommand(event) {
+            if (event) event.preventDefault();
+
+            const inputElem = document.getElementById('search-input');
+            const rawQuery = inputElem.value.trim();
+            const key = rawQuery.toLowerCase();
+
+            if (!rawQuery) return;
+
+            // Check if input matches key in JSON dictionary
+            if (shortcutsMap.hasOwnProperty(key)) {
+                const target = shortcutsMap[key];
+
+                if (target.type === 'url') {
+                    inputElem.value = '';
+                    directNavigate(target.value);
+                    return;
+                } else if (target.type === 'script') {
+                    inputElem.value = '';
+                    runScriptCommand(key);
+                    return;
+                }
+            }
+
+            // Fallback: If not found in shortcuts map, treat as standard web query/URL
+            let destinationUrl = "";
+
+            if (rawQuery.startsWith('http://') || rawQuery.startsWith('https://') || (rawQuery.includes('.') && !rawQuery.includes(' '))) {
+                destinationUrl = rawQuery.startsWith('http') ? rawQuery : `https://${rawQuery}`;
+            } else {
+                if (currentEngine === 'gemini') {
+                    destinationUrl = engineUrls.gemini;
+                } else {
+                    destinationUrl = engineUrls[currentEngine] + encodeURIComponent(rawQuery);
+                }
+            }
+
+            inputElem.value = '';
+            window.location.href = destinationUrl;
+        }
+
+        function runScriptCommand(scriptKey) {
+            if (scriptKey === 'cls') {
+                const inputElem = document.getElementById('search-input');
+                if (inputElem) inputElem.value = '';
+                closeTerminalOutput();
+            } else if (scriptKey === 'ls') {
+                renderLsOutput();
+            }
+        }
+
+        function renderLsOutput() {
+            const container = document.getElementById('terminal-output-container');
+            const outputDiv = document.getElementById('terminal-output');
+
+            if (!container || !outputDiv) return;
+
+            outputDiv.innerHTML = '';
+            Object.keys(shortcutsMap).forEach(k => {
+                const cmd = shortcutsMap[k];
+                const item = document.createElement('div');
+                item.className = "p-1.5 rounded flex items-center justify-between cursor-pointer hover:border-[var(--text-primary)] border border-[var(--border-color)] bg-[var(--input-bg)]";
+                item.onclick = () => {
+                    if (cmd.type === 'url') directNavigate(cmd.value);
+                    else runScriptCommand(k);
+                };
+                item.innerHTML = `
+                    <span class="font-bold" style="color: var(--text-primary);">${k}</span>
+                    <span class="text-[10px] truncate max-w-[80px]" style="color: var(--text-muted);">${cmd.description}</span>
+                `;
+                outputDiv.appendChild(item);
+            });
+
+            container.classList.remove('hidden');
+        }
+
+        function closeTerminalOutput() {
+            const container = document.getElementById('terminal-output-container');
+            if (container) container.classList.add('hidden');
+        }
+
+        function directNavigate(url) {
+            window.location.href = url;
+        }
+
+        function selectEngine(engine) {
+            currentEngine = engine;
+            engines.forEach(e => {
+                const btn = document.getElementById(`btn-engine-${e}`);
+                if (btn) {
+                    if (e === engine) btn.classList.add('active');
+                    else btn.classList.remove('active');
+                }
+            });
+        }
+
+        function cycleEngine() {
+            const currentIndex = engines.indexOf(currentEngine);
+            const nextIndex = (currentIndex + 1) % engines.length;
+            selectEngine(engines[nextIndex]);
+        }
+
+        function focusSearch() {
+            const input = document.getElementById('search-input');
+            if (input) {
+                input.focus();
+                input.select();
+            }
+        }
+
+        document.addEventListener('keydown', function (e) {
+            const activeElem = document.activeElement;
+            const isInputFocused = activeElem && (activeElem.tagName === 'INPUT' || activeElem.tagName === 'TEXTAREA');
+
+            if (e.key === '/' && !isInputFocused) {
+                e.preventDefault();
+                focusSearch();
+                return;
+            }
+
+            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                cycleEngine();
+                return;
+            }
+        });
+    </script>
 </body>
-
 </html>
-
-
-<!--
-- Clima
-- To-do-List
-- Calculadora
-- Notas
-- Cotação
--->

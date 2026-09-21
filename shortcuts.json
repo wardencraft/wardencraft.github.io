@@ -89,6 +89,11 @@
         "value": "https://discord.com/app",
         "description": "Discord"
     },
+    "enem": {
+        "type": "url",
+        "value": "https://enemwiki.com.br",
+        "description": "Enem Wiki"
+    },
     "un": {
         "type": "url",
         "value": "https://aluno.universonarrado.com.br",

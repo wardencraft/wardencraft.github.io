@@ -24,7 +24,7 @@
         "value":"https://onlinegdb.com",
         "description":"OnlineGDB"
     },
-    "gmail": {
+    "g": {
         "type":"url",
         "value":"https://mail.google.com/",
         "description":"Google Gmail"
@@ -34,7 +34,7 @@
         "value":"https://gemini.google.com/",
         "description":"Gemini"
     },
-    "telegram": {
+    "tg": {
         "type":"url",
         "value":"https://web.telegram.org/",
         "description":"Telegram"
@@ -49,7 +49,7 @@
         "value":"https://canva.com",
         "description":"Canva"
     },
-    "drive": {
+    "d": {
         "type":"url",
         "value":"https://drive.google.com/",
         "description":"Google Drive"
@@ -93,6 +93,16 @@
         "type": "url",
         "value": "https://enemwiki.com.br",
         "description": "Enem Wiki"
+    },
+    "ag": {
+        "type": "url",
+        "value": "https://www.assaadgames.com.br/",
+        "description": "Assaad Games"
+    },
+    "nt": {
+        "type": "url",
+        "value": "https://nexustoons.com/",
+        "description": "Nexus Toons"
     },
     "un": {
         "type": "url",

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXUS // SYS.V4.0</title>
 
+    <link rel="icon" id="nexus-favicon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23090A0C'/><path d='M25 32 L50 50 L25 68 M55 68 L75 68' stroke='%234ADE80' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
+
     <!-- Script de execução imediata para evitar o FOUC (flash de tom verde ao carregar) -->
     <script>
         (function() {
@@ -103,6 +105,27 @@
             --glow-bright: rgba(239, 68, 68, 0.4);
             --item-hover-bg: #331212;
             --selection-bg: #F87171;
+            --selection-text: #000000;
+        }
+
+        /* THEME: NEUTRAL / SILVER MONOCHROME */
+        [data-theme="mono"] {
+            --bg-dark: #090A0C;
+            --card-bg: #121418;
+            --input-bg: #090A0D;
+            --border-color: #2A2E38;
+            --border-hover: rgba(226, 232, 240, 0.6);
+            --text-primary: #E2E8F0;
+            --text-bright: #FFFFFF;
+            --text-muted: #718096;
+            --text-dim: #1E232A;
+            --btn-bg: #E2E8F0;
+            --btn-hover: #FFFFFF;
+            --btn-text: #090A0C;
+            --glow-color: rgba(226, 232, 240, 0.2);
+            --glow-bright: rgba(255, 255, 255, 0.35);
+            --item-hover-bg: #1A1D24;
+            --selection-bg: #E2E8F0;
             --selection-text: #000000;
         }
 
@@ -305,7 +328,7 @@
                             <input
                                 type="text"
                                 id="search-input"
-                                placeholder="Digite uma pergunta, link ou atalho (ex: y, git, w, ls)..."
+                                placeholder="SEARCH HERE..."
                                 autocomplete="off"
                                 class="bg-transparent text-xs sm:text-sm focus:outline-none w-full font-mono tracking-wide"
                                 style="color: var(--text-primary);"
@@ -325,18 +348,15 @@
                 </form>
 
                 <!-- Keyboard Hotkey Indicators (Informative Only) -->
-                <div class="flex flex-wrap gap-3 mt-2.5 text-[10px] sm:text-xs tracking-wider" style="color: var(--text-muted);">
+                <div class="flex flex-wrap gap-4 mt-2.5 text-[10px] sm:text-xs tracking-wider" style="color: var(--text-muted);">
                     <span>
-                        <span style="color: var(--text-primary);">[ ENTER ]</span> buscar/executar
+                        <span style="color: var(--text-primary);">[ / ]</span> FOCUS HERE
                     </span>
                     <span>
-                        <span style="color: var(--text-primary);">[ CMD K ]</span> alternar motor
+                        <span style="color: var(--text-primary);">[ CMD+K ]</span> SWITCH ENGINE
                     </span>
                     <span>
-                        <span style="color: var(--text-primary);">[ TEMA ]</span> mudar cor
-                    </span>
-                    <span>
-                        <span style="color: var(--text-primary);">[ / ]</span> focar campo
+                        <span style="color: var(--text-primary);">// STATUS:</span> OPTIMAL
                     </span>
                 </div>
             </section>
@@ -421,7 +441,7 @@
                                 <input
                                     type="text"
                                     id="todo-input"
-                                    placeholder="Adicionar nova tarefa..."
+                                    placeholder=""
                                     autocomplete="off"
                                     class="bg-transparent border border-[#1E3827] text-xs px-2.5 py-1 rounded focus:outline-none flex-1 font-mono tracking-wide transition-colors"
                                     style="background-color: var(--input-bg); border-color: var(--border-color); color: var(--text-primary);"
@@ -485,10 +505,11 @@
     <script>
         /* Theme Configuration */
         const themesList = [
-            { id: 'green', label: 'SYS.V4.0 // VERDE' },
-            { id: 'cyan', label: 'SYS.V4.0 // CIANO' },
-            { id: 'pink', label: 'SYS.V4.0 // ROSA' },
-            { id: 'red', label: 'SYS.V4.0 // VERMELHO' }
+            { id: 'green', label: 'SYS.V4.0 // VERDE', color: '%234ADE80' },
+            { id: 'cyan', label: 'SYS.V4.0 // CIANO', color: '%2338BDF8' },
+            { id: 'pink', label: 'SYS.V4.0 // ROSA', color: '%23F472B6' },
+            { id: 'red', label: 'SYS.V4.0 // VERMELHO', color: '%23F87171' },
+            { id: 'mono', label: 'SYS.V4.0 // NEUTRO', color: '%23E2E8F0' }
         ];
 
         let currentTheme = localStorage.getItem('nexus_theme') || 'green';
@@ -530,6 +551,12 @@
             const displayNameElem = document.getElementById('theme-display-name');
             if (displayNameElem) {
                 displayNameElem.textContent = themeObj.label;
+            }
+
+            // Update Favicon color dynamically to match active theme
+            const faviconElem = document.getElementById('nexus-favicon');
+            if (faviconElem && themeObj.color) {
+                faviconElem.href = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23090A0C'/><path d='M25 32 L50 50 L25 68 M55 68 L75 68' stroke='${themeObj.color}' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>`;
             }
         }
 

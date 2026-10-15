@@ -243,25 +243,6 @@
             box-shadow: 0 0 10px var(--glow-color);
         }
 
-        /* Pulse Animation */
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.85); }
-        }
-
-        .live-dot {
-            animation: pulse-dot 1.8s infinite ease-in-out;
-            background-color: var(--text-primary);
-            box-shadow: 0 0 8px var(--text-primary);
-        }
-
-        /* Half-Moon Gauge Arc Stroke Transition */
-        .pomo-arc-path {
-            stroke: var(--text-primary);
-            filter: drop-shadow(0px 0px 6px var(--text-primary));
-            transition: stroke-dashoffset 0.4s ease-out, stroke 0.3s ease;
-        }
-
         /* Custom Scrollbar for Terminal Lists */
         .custom-scroll::-webkit-scrollbar {
             width: 4px;
@@ -440,66 +421,46 @@
 
                     </div>
 
-                    <!-- CARD: FOCUS // POMODORO TIMER WITH HALF-MOON GAUGE -->
+                    <!-- CARD: LIBRARY // BIBLIOTECA PESSOAL (Substitui o Pomodoro) -->
                     <div class="cyber-card rounded-lg p-3.5 flex-1 flex flex-col justify-between min-h-0 overflow-hidden relative">
                         <div class="flex items-center justify-between shrink-0 cyber-border-bottom pb-2">
                             <h3 class="text-[10px] tracking-widest uppercase flex items-center gap-1.5" style="color: var(--text-muted);">
-                                <span class="w-1.5 h-1.5 rounded-full" id="pomo-dot" style="background-color: var(--text-primary);"></span>
-                                FOCUS // POMODORO TIMER
+                                <span class="w-1.5 h-1.5 rounded-full live-dot"></span>
+                                LIBRARY // BIBLIOTECA PESSOAL
                             </h3>
-                            <span id="pomo-status-tag" class="text-[10px] font-mono tracking-widest uppercase px-1.5 py-0.5 rounded border" style="border-color: var(--border-color); color: var(--text-primary);">
-                                [ 25:00 // WORK ]
+                            <span id="lib-count-tag" class="text-[10px] font-mono tracking-widest uppercase px-1.5 py-0.5 rounded border" style="border-color: var(--border-color); color: var(--text-primary);">
+                                [ 0 LIVROS ]
                             </span>
                         </div>
 
-                        <!-- Central Half-Moon Gauge & Digital Timer Display -->
-                        <div class="flex-1 flex flex-col items-center justify-center relative py-1 my-auto">
-                            <div class="relative w-48 h-24 sm:w-56 sm:h-28 flex items-end justify-center">
-                                <!-- SVG Half-Moon Gauge Arc -->
-                                <svg class="w-full h-full overflow-visible" viewBox="0 0 100 55">
-                                    <!-- Arc Track -->
-                                    <path 
-                                        d="M 10 50 A 40 40 0 0 1 90 50" 
-                                        fill="none" 
-                                        stroke="var(--border-color)" 
-                                        stroke-width="6" 
-                                        stroke-linecap="round" 
-                                    />
-                                    <!-- Dynamic Progress Arc -->
-                                    <path 
-                                        id="pomo-arc-gauge"
-                                        class="pomo-arc-path"
-                                        d="M 10 50 A 40 40 0 0 1 90 50" 
-                                        fill="none" 
-                                        stroke-width="6" 
-                                        stroke-linecap="round"
-                                        stroke-dasharray="125.66"
-                                        stroke-dashoffset="0"
-                                    />
+                        <!-- Campo de Pesquisa do Acervo -->
+                        <div class="my-2 shrink-0">
+                            <div class="cyber-input-wrapper rounded p-1.5 flex items-center gap-2">
+                                <svg class="w-3.5 h-3.5 shrink-0" style="color: var(--text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
-
-                                <!-- Time Text Positioned Inside Half-Moon Arc -->
-                                <div id="pomo-timer-display" class="absolute bottom-0 text-4xl sm:text-5xl font-pixel tracking-wider" style="color: var(--text-primary); text-shadow: 0 0 12px var(--glow-bright);">
-                                    25:00
-                                </div>
+                                <input 
+                                    type="text" 
+                                    id="lib-search-input" 
+                                    placeholder="FILTRAR ACERVO DE LIVROS..." 
+                                    autocomplete="off"
+                                    class="bg-transparent text-xs focus:outline-none w-full font-mono tracking-wide"
+                                    style="color: var(--text-primary);"
+                                />
                             </div>
                         </div>
 
-                        <!-- Controls Bar -->
-                        <div class="flex items-center justify-center gap-2 shrink-0 pt-2 cyber-border-top">
-                            <button id="pomo-btn-toggle" onclick="togglePomodoro()" class="btn-cyber-primary px-4 py-1.5 rounded text-[11px] tracking-wider uppercase font-bold flex items-center gap-1.5">
-                                <span id="pomo-btn-icon">▶</span>
-                                <span id="pomo-btn-text">START</span>
-                            </button>
-                            <button onclick="resetPomodoro()" class="btn-cyber-outline px-3 py-1.5 rounded text-[11px] tracking-wider uppercase font-bold">
-                                RESET
-                            </button>
-                            <button onclick="switchPomodoroMode('work')" id="pomo-mode-work" class="pill-btn active px-2.5 py-1.5 rounded text-[10px] font-bold">
-                                25M WORK
-                            </button>
-                            <button onclick="switchPomodoroMode('break')" id="pomo-mode-break" class="pill-btn px-2.5 py-1.5 rounded text-[10px] font-bold">
-                                05M BREAK
-                            </button>
+                        <!-- Lista Scrollável de Livros em PDF -->
+                        <div class="flex-1 overflow-y-auto custom-scroll pr-1 my-1">
+                            <ul id="lib-books-list" class="space-y-1.5 text-xs font-mono">
+                                <li class="text-[11px] p-2" style="color: var(--text-muted);">CARREGANDO ACERVO DA BIBLIOTECA...</li>
+                            </ul>
+                        </div>
+
+                        <!-- Rodapé Informativo da Biblioteca -->
+                        <div class="flex items-center justify-between shrink-0 pt-2 cyber-border-top text-[10px] tracking-wider" style="color: var(--text-muted);">
+                            <span>[ ARQUIVOS EM PDF ]</span>
+                            <span style="color: var(--text-primary);">CLIQUE PARA ABRIR</span>
                         </div>
                     </div>
 
@@ -559,14 +520,15 @@
         let shortcutsMap = {};
         const engineUrl = "https://www.google.com/search?q=";
 
-        /* Pomodoro Timer System Variables */
-        let pomoWorkTime = 25 * 60; // 25 min in seconds
-        let pomoBreakTime = 5 * 60;  // 5 min in seconds
-        let pomoTotalTime = pomoWorkTime;
-        let pomoTimeLeft = pomoWorkTime;
-        let pomoTimerId = null;
-        let pomoIsRunning = false;
-        let pomoMode = 'work'; // 'work' or 'break'
+        /* Private Library System Variables */
+        const LIB_USERNAME = 'wardencraft';
+        const LIB_REPO = 'search';
+        const LIB_PATH = 'library/books';
+        const libUrl = `https://api.github.com/repos/${LIB_USERNAME}/${LIB_REPO}/contents/${LIB_PATH}`;
+
+        let libMasterList = [];
+        let libFilteredList = [];
+        let libSelectedIndex = -1;
 
         /* Initialization */
         document.addEventListener('DOMContentLoaded', function () {
@@ -575,117 +537,119 @@
             loadExternalShortcuts();
             startClock();
             fetchLiveApiData();
-            updatePomodoroUI();
+            fetchLibraryBooks();
+
+            // Setup Library Search Filter Listener
+            const libInput = document.getElementById('lib-search-input');
+            if (libInput) {
+                libInput.addEventListener('input', function() {
+                    filterLibraryBooks(this.value);
+                });
+            }
 
             // Refresh API data every 3 minutes
             setInterval(fetchLiveApiData, 180000);
         });
 
-        /* Pomodoro Logic & Half-Moon Arc Update */
-        function updatePomodoroUI() {
-            const display = document.getElementById('pomo-timer-display');
-            const statusTag = document.getElementById('pomo-status-tag');
-            const btnIcon = document.getElementById('pomo-btn-icon');
-            const btnText = document.getElementById('pomo-btn-text');
-            const arcGauge = document.getElementById('pomo-arc-gauge');
-            const pomoDot = document.getElementById('pomo-dot');
+        /* Fetch Books from GitHub Repository API */
+        async function fetchLibraryBooks() {
+            const listElem = document.getElementById('lib-books-list');
+            const countTag = document.getElementById('lib-count-tag');
 
-            const minutes = String(Math.floor(pomoTimeLeft / 60)).padStart(2, '0');
-            const seconds = String(pomoTimeLeft % 60).padStart(2, '0');
+            try {
+                const response = await fetch(libUrl);
+                const data = await response.json();
 
-            if (display) display.textContent = `${minutes}:${seconds}`;
-
-            if (statusTag) {
-                statusTag.textContent = pomoMode === 'work' 
-                    ? `[ ${minutes}:${seconds} // WORK ]` 
-                    : `[ ${minutes}:${seconds} // BREAK ]`;
-            }
-
-            if (btnIcon && btnText) {
-                btnIcon.textContent = pomoIsRunning ? '❚❚' : '▶';
-                btnText.textContent = pomoIsRunning ? 'PAUSE' : 'START';
-            }
-
-            // Update SVG Half-Moon Arc Gauge (Total arc circumference = 125.66)
-            if (arcGauge) {
-                const totalLength = 125.66;
-                const ratio = Math.max(0, Math.min(1, pomoTimeLeft / pomoTotalTime));
-                const strokeOffset = totalLength * (1 - ratio);
-                arcGauge.style.strokeDashoffset = strokeOffset;
-            }
-
-            // Dot pulse class update
-            if (pomoDot) {
-                if (pomoIsRunning) pomoDot.classList.add('live-dot');
-                else pomoDot.classList.remove('live-dot');
-            }
-        }
-
-        function togglePomodoro() {
-            if (pomoIsRunning) {
-                pausePomodoro();
-            } else {
-                startPomodoro();
-            }
-        }
-
-        function startPomodoro() {
-            if (pomoIsRunning) return;
-            pomoIsRunning = true;
-
-            pomoTimerId = setInterval(() => {
-                if (pomoTimeLeft > 0) {
-                    pomoTimeLeft--;
-                    updatePomodoroUI();
-                } else {
-                    handlePomodoroFinish();
+                if (!Array.isArray(data)) {
+                    if (listElem) listElem.innerHTML = '<li class="text-[11px] p-2" style="color: var(--text-muted);">NENHUM LIVRO ENCONTRADO.</li>';
+                    if (countTag) countTag.textContent = '[ 0 LIVROS ]';
+                    return;
                 }
-            }, 1000);
 
-            updatePomodoroUI();
+                libMasterList = data.filter(file => file.type === 'file');
+                renderLibraryList(libMasterList);
+
+            } catch (err) {
+                console.error("Erro ao carregar biblioteca:", err);
+                if (listElem) listElem.innerHTML = '<li class="text-[11px] p-2 text-red-400">ERRO AO CONECTAR COM A BIBLIOTECA.</li>';
+            }
         }
 
-        function pausePomodoro() {
-            pomoIsRunning = false;
-            if (pomoTimerId) clearInterval(pomoTimerId);
-            updatePomodoroUI();
-        }
+        /* Render Book List Items */
+        function renderLibraryList(books) {
+            const listElem = document.getElementById('lib-books-list');
+            const countTag = document.getElementById('lib-count-tag');
 
-        function resetPomodoro() {
-            pausePomodoro();
-            pomoTimeLeft = pomoMode === 'work' ? pomoWorkTime : pomoBreakTime;
-            pomoTotalTime = pomoTimeLeft;
-            updatePomodoroUI();
-        }
+            if (!listElem) return;
 
-        function switchPomodoroMode(mode) {
-            pomoMode = mode;
-            pomoTimeLeft = mode === 'work' ? pomoWorkTime : pomoBreakTime;
-            pomoTotalTime = pomoTimeLeft;
+            libFilteredList = books;
+            listElem.innerHTML = '';
 
-            const workBtn = document.getElementById('pomo-mode-work');
-            const breakBtn = document.getElementById('pomo-mode-break');
-
-            if (mode === 'work') {
-                if (workBtn) workBtn.classList.add('active');
-                if (breakBtn) breakBtn.classList.remove('active');
-            } else {
-                if (breakBtn) breakBtn.classList.add('active');
-                if (workBtn) workBtn.classList.remove('active');
+            if (countTag) {
+                countTag.textContent = `[ ${books.length} ${books.length === 1 ? 'LIVRO' : 'LIVROS'} ]`;
             }
 
-            pausePomodoro();
-            updatePomodoroUI();
+            if (books.length === 0) {
+                listElem.innerHTML = '<li class="text-[11px] p-2" style="color: var(--text-muted);">NENHUM LIVRO ENCONTRADO.</li>';
+                libSelectedIndex = -1;
+                return;
+            }
+
+            books.forEach((book, index) => {
+                const li = document.createElement('li');
+                
+                // Formata o nome removendo a extensão .pdf para exibição mais limpa
+                const displayName = book.name.replace(/\.pdf$/i, '');
+
+                li.className = "cyber-input-wrapper p-2 rounded flex items-center justify-between cursor-pointer hover:border-[var(--text-primary)] transition-all group";
+                li.onclick = () => openBook(book.download_url);
+
+                li.innerHTML = `
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        <svg class="w-3.5 h-3.5 shrink-0" style="color: var(--text-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <span class="truncate text-[11px] font-mono" style="color: var(--text-primary);" title="${book.name}">
+                            ${displayName}
+                        </span>
+                    </div>
+                    <svg class="w-3.5 h-3.5 shrink-0 opacity-40 group-hover:opacity-100 transition-opacity" style="color: var(--text-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                `;
+
+                listElem.appendChild(li);
+            });
+
+            libSelectedIndex = 0;
+            updateLibrarySelection();
         }
 
-        function handlePomodoroFinish() {
-            pausePomodoro();
+        /* Update visually selected book item */
+        function updateLibrarySelection() {
+            const items = document.querySelectorAll("#lib-books-list li");
+            items.forEach(item => item.classList.remove("border-[var(--text-primary)]", "bg-[var(--item-hover-bg)]"));
 
-            if (pomoMode === 'work') {
-                switchPomodoroMode('break');
-            } else {
-                switchPomodoroMode('work');
+            if (libSelectedIndex >= 0 && libSelectedIndex < items.length) {
+                const selected = items[libSelectedIndex];
+                selected.classList.add("border-[var(--text-primary)]", "bg-[var(--item-hover-bg)]");
+                selected.scrollIntoView({ block: "nearest", behavior: "smooth" });
             }
+        }
+
+        function normalizeText(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        }
+
+        function filterLibraryBooks(query) {
+            const cleanQuery = normalizeText(query);
+            const filtered = libMasterList.filter(book => normalizeText(book.name).includes(cleanQuery));
+            renderLibraryList(filtered);
+        }
+
+        /* Open PDF inline in browser tab */
+        function openBook(url) {
+            window.open(url, '_blank');
         }
 
         /* Fetch Real API Data (Bitcoin em BRL) */
@@ -920,6 +884,37 @@
                 e.preventDefault();
                 focusSearch();
                 return;
+            }
+
+            // Atalho Ctrl + Space para focar na busca da biblioteca
+            if (e.ctrlKey && e.code === "Space") {
+                e.preventDefault();
+                const libInput = document.getElementById('lib-search-input');
+                if (libInput) {
+                    libInput.focus();
+                    libInput.select();
+                }
+                return;
+            }
+
+            // Suporte para navegação pelas setas quando a busca da biblioteca não estiver em foco
+            if (!isInputFocused && libFilteredList.length > 0) {
+                if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    if (libSelectedIndex < libFilteredList.length - 1) {
+                        libSelectedIndex++;
+                        updateLibrarySelection();
+                    }
+                } else if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    if (libSelectedIndex > 0) {
+                        libSelectedIndex--;
+                        updateLibrarySelection();
+                    }
+                } else if (e.key === "Enter" && libSelectedIndex >= 0 && libSelectedIndex < libFilteredList.length) {
+                    e.preventDefault();
+                    openBook(libFilteredList[libSelectedIndex].download_url);
+                }
             }
         });
     </script>
